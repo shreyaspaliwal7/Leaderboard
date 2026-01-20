@@ -36,6 +36,10 @@ const AdminPanel = () => {
     if (savedTeams) setTeams(JSON.parse(savedTeams));
     if (savedQ) setQuestion(savedQ);
     if (savedR) setRound(parseInt(savedR));
+    if (typeof window !== 'undefined') {
+      const savedTeams = localStorage.getItem('hp_teams');
+      if (savedTeams) setTeams(JSON.parse(savedTeams));
+    }
   }, []);
 
   // Helper to save and notify other tabs
