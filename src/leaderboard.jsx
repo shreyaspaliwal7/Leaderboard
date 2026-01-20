@@ -91,22 +91,23 @@ const Leaderboard = () => {
   }, []);
 
   useEffect(() => {
-  // Check every second to update the countdown
-  const timerInterval = setInterval(calculateTime, 1000);
-  
-  // Also listen for manual Start/Stop/Reset from Admin
-  window.addEventListener('storage', calculateTime);
-  
-  return () => {
-    clearInterval(timerInterval);
-    window.removeEventListener('storage', calculateTime);
-  };
-}, []);
+    // Check every second to update the countdown
+    const timerInterval = setInterval(calculateTime, 1000);
+
+    // Also listen for manual Start/Stop/Reset from Admin
+    window.addEventListener('storage', calculateTime);
+
+    return () => {
+      clearInterval(timerInterval);
+      window.removeEventListener('storage', calculateTime);
+    };
+  }, []);
 
 
   return (
     <div className="min-h-screen  text-white p-10 font-serif">
-      <div className='fixed top-0 left-0 w-full h-screen bg-center bg-cover -z-40 ' style={{ backgroundImage: "url(/thumb_1654601227_834365.jpg)" }} alt="" /><div/>
+      {/* <NAVBAR/> */}
+      <div className='fixed top-0 left-0 w-full h-screen bg-center bg-cover -z-40 ' style={{ backgroundImage: "url(/thumb_1654601227_834365.jpg)" }} alt="" /><div />
       <a href="/admin">
         <button className='h-1 w-1 bg-amber-50'></button>
       </a>
@@ -117,10 +118,10 @@ const Leaderboard = () => {
     whitespace-pre-wrap break-words w-full h-auto' >
           {/* <p className="text-amber-600 text-3xl uppercase tracking-widest mb-5">Round {data.round}</p> */}
           <div className="flex items-center justify-between w-full mb-4 px-2">
-            <div className="text-[#FABE33] text-2xl font-bold italic">
+            <div className="text-[#FABE33] text-4xl font-bold italic underline">
               Round {data.round}
             </div>
-
+            <img src="/wmegatreopuz.svg" className='w-56 mb-6 ' alt="" />
             <div className="flex items-center gap-3 bg-black/40 px-4 py-1 rounded-full border border-[#FABE33]/30">
               <span className="text-[#FABE33]/60 text-[10px] uppercase tracking-tighter">Time Left</span>
               <span className={`text-3xl font-mono font-bold ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : 'text-[#FABE33]'}`}>
