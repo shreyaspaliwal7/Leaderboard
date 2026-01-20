@@ -1,9 +1,31 @@
 import React, { useState, useEffect } from 'react';
+// Add this at the top of AdminPanel.jsx
 
 const AdminPanel = () => {
   const [teams, setTeams] = useState([]);
   const [question, setQuestion] = useState("");
   const [round, setRound] = useState(1);
+  const [duration, setDuration] = useState(60);
+  const startTimer = () => {
+    // Calculate the exact timestamp when the timer should end
+    const endTime = Date.now() + duration * 1000;
+    localStorage.setItem('hp_timer_end', endTime.toString());
+    localStorage.setItem('hp_timer_running', 'true');
+    // Dispatch event so other tab sees it immediately
+    window.dispatchEvent(new Event('storage'));
+  };
+
+  const stopTimer = () => {
+    localStorage.setItem('hp_timer_running', 'false');
+    window.dispatchEvent(new Event('storage'));
+  };
+
+  const resetTimer = () => {
+    localStorage.removeItem('hp_timer_end');
+    localStorage.setItem('hp_timer_running', 'false');
+    window.dispatchEvent(new Event('storage'));
+  };
+
 
   // Load everything from LocalStorage on mount
   useEffect(() => {
@@ -45,6 +67,7 @@ const AdminPanel = () => {
     );
     setTeams(updated);
     sync(updated, question, round);
+
   };
 
   const deleteTeam = (id) => {
@@ -65,6 +88,20 @@ const AdminPanel = () => {
             + Summon New Team
           </button>
         </header>
+        <div className="bg-[#004750] p-4 rounded-lg border border-[#FABE33]/30">
+          <p className="text-[#FABE33] text-[10px] uppercase mb-2">Time Turner</p>
+          <div className="flex gap-2">
+            <input
+              type="number"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              className="w-16 bg-black/40 text-[#FABE33] border border-amber-900 p-2 rounded"
+            />
+            <button onClick={startTimer} className="bg-emerald-800 px-3 py-1 rounded text-xs">Start</button>
+            <button onClick={stopTimer} className="bg-rose-800 px-3 py-1 rounded text-xs">Stop</button>
+            <button onClick={resetTimer} className="bg-slate-700 px-3 py-1 rounded text-xs">Reset</button>
+          </div>
+        </div>
 
         <section className="bg-slate-900 p-6 rounded border border-amber-900 shadow-xl">
           <div className="grid grid-cols-2 gap-4 mb-4">
